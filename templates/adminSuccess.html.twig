@@ -1,0 +1,30 @@
+<style>
+    table, td, th {
+        border: solid 1px;
+    }
+</style>
+<h1>Round: {{ round }}</h1>
+<table>
+    <tr>
+        <th> Travel Distance</th>
+        <th> model</th>
+        <th> Filght Duration</th>
+        <th> Participant Name</th>
+        <th> Date</th>
+        <th> Round</th>
+        <th>delete</th>
+    </tr>
+    <br>
+    {% for menu in menus %}
+        <tr>
+            <td> {{ menu.getTravelDistance }} </td>
+            <td> {{ menu.model }} </td>
+            <td> {{ menu.FlightDuration }} </td>
+            <td> {{ menu.participantName }} </td>
+            <td> {{ menu.getDate().format("d-M-Y") }} </td>
+            <td><a href="http://127.0.0.1:8000/results/{{ menu.round }}"> {{ menu.round }} </a></td>
+            <td><a href="http://127.0.0.1:8000/deleteMEME/{{ menu.id }}">delete</a></td>
+        </tr>
+    {% endfor %}
+</table>
+<p><a href="http://127.0.0.1:8000/results">Show All</a></p>
