@@ -6,7 +6,7 @@
 /config/secrets/prod/prod.decrypt.private.php
 /public/bundles/
 /src/.preload.php
-/var/
+/var/cache
 /vendor/
 ###< symfony/framework-bundle ###
 
