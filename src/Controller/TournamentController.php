@@ -28,30 +28,6 @@ class TournamentController extends AbstractController {
         ]);
     }
 
-    /**
-     * @Route(
-     *     "/tournament/showLehrer/{id}.{_format}",
-     *     format="html",
-     *     name="show_tournamententry_json",
-     *     requirements={
-     *         "_format": "html|json|xml",
-     *     }
-     * )
-     */
-    public function showLehrer(TournamentEntry2 $tournamentEntry, string $_format, SerializerInterface $serializer, Request $request): Response {
-
-        $request->getAcceptableContentTypes();
-        if ($_format == 'json') {
-            $jsonContent = $serializer->serialize($tournamentEntry, 'json');
-            return new Response($jsonContent);
-        }
-        if ($_format == 'xml') {
-            $xmlContent = $serializer->serialize($tournamentEntry, 'xml');
-            return new Response($xmlContent);
-        }
-        return new Response('Easily found tournament entry with flying distance ' . $tournamentEntry->getTraveldistance());
-    }
-
 
     /**
      * @Route("/tournament/add", name="add_tournament")
@@ -116,10 +92,9 @@ class TournamentController extends AbstractController {
     }
 
     /**
-     * @Route("/results/{id}", name="showRound")
+     * @Route("/results/{id}", name="showRounds")
      */
-    public
-    function rounds(int $id) {
+    public function rounds(int $id) {
         $tournament = $this->getDoctrine()->getRepository(TournamentEntry2::class);
         return $this->render("success.html.twig", ["menus" => $tournament->findBy(['round' => $id]), "round" => $id]);
     }
@@ -127,45 +102,43 @@ class TournamentController extends AbstractController {
     /**
      * @Route("/participants/{id}", name="showRound")
      */
-    public
-    function participants(String $id) {
+    public function participants(string $id) {
         $tournament = $this->getDoctrine()->getRepository(TournamentEntry2::class);
         return $this->render("success.html.twig", ["menus" => $tournament->findBy(['participant_name' => $id]), "round" => $id]);
     }
 
 
-    /**
-     * @Route("/tournament/create/{traveldistance}", name="create_tournament")
-     */
-    public
-    function createTournamentEntry(float $traveldistance, ValidatorInterface $validator): Response {
-        // you can fetch the EntityManager via $this->getDoctrine()
-        // or you can add an argument to the action: createProduct(EntityManagerInterface $entityManager)
-        $entityManager = $this->getDoctrine()->getManager();
-
-        $tounamentEntry = new TournamentEntry2();
-        $tounamentEntry->setTraveldistance($traveldistance);
-
-//        $errors = $validator->validate($traveldistance);
-//        if (count($errors) > 0) {
-//            return new Response((string)$errors, 400);
-//        }
-
-        // tell Doctrine you want to (eventually) save the Product (no queries yet)
-        $entityManager->persist($tounamentEntry);
-
-        // actually executes the queries (i.e. the INSERT query)
-        $entityManager->flush();
-
-        return new Response('Saved new Tournament Entry with id ' . $tounamentEntry->getId() . " and : " . $traveldistance . " meter");
-    }
-
-    /**
-     * @Route("/tournament/show/{id}", name="show_tournament")
-     */
-    public
-    function show(TournamentEntry2 $tournamentEntry2) {
-        return new Response('Check out this great product: ' . $tournamentEntry2->getTraveldistance());
-    }
+//    /**
+//     * @Route("/tournament/create/{traveldistance}", name="create_tournament")
+//     */
+//    public function createTournamentEntry(float $traveldistance, ValidatorInterface $validator): Response {
+//        // you can fetch the EntityManager via $this->getDoctrine()
+//        // or you can add an argument to the action: createProduct(EntityManagerInterface $entityManager)
+//        $entityManager = $this->getDoctrine()->getManager();
+//
+//        $tounamentEntry = new TournamentEntry2();
+//        $tounamentEntry->setTraveldistance($traveldistance);
+//
+////        $errors = $validator->validate($traveldistance);
+////        if (count($errors) > 0) {
+////            return new Response((string)$errors, 400);
+////        }
+//
+//        // tell Doctrine you want to (eventually) save the Product (no queries yet)
+//        $entityManager->persist($tounamentEntry);
+//
+//        // actually executes the queries (i.e. the INSERT query)
+//        $entityManager->flush();
+//
+//        return new Response('Saved new Tournament Entry with id ' . $tounamentEntry->getId() . " and : " . $traveldistance . " meter");
+//    }
+//
+//    /**
+//     * @Route("/tournament/show/{id}", name="show_tournament")
+//     */
+//    public
+//    function show(TournamentEntry2 $tournamentEntry2) {
+//        return new Response('Check out this great product: ' . $tournamentEntry2->getTraveldistance());
+//    }
 
 }
