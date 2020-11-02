@@ -19,7 +19,7 @@
             <td> {{ menu.getTravelDistance }} </td>
             <td> {{ menu.model }} </td>
             <td> {{ menu.FlightDuration }} </td>
-            <td> {{ menu.participantName }} </td>
+            <td><a href="http://127.0.0.1:8000/participants/{{ menu.participantName }}">{{ menu.participantName }}</a></td>
             <td> {{ menu.getDate().format("d-M-Y") }} </td>
             <td><a href="http://127.0.0.1:8000/results/{{ menu.round }}"> {{ menu.round }} </a></td>
         </tr>

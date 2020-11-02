@@ -5,6 +5,7 @@ namespace App\Controller;
 use App\Entity\TournamentEntry2;
 use App\Form\TournamentType;
 use Doctrine\DBAL\Types\IntegerType;
+use PhpParser\Node\Scalar\String_;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\Form\Extension\Core\Type\NumberType;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
@@ -37,7 +38,9 @@ class TournamentController extends AbstractController {
      *     }
      * )
      */
-    public function showLehrer(TournamentEntry2 $tournamentEntry, string $_format, SerializerInterface $serializer): Response {
+    public function showLehrer(TournamentEntry2 $tournamentEntry, string $_format, SerializerInterface $serializer, Request $request): Response {
+
+        $request->getAcceptableContentTypes();
         if ($_format == 'json') {
             $jsonContent = $serializer->serialize($tournamentEntry, 'json');
             return new Response($jsonContent);
@@ -119,6 +122,15 @@ class TournamentController extends AbstractController {
     function rounds(int $id) {
         $tournament = $this->getDoctrine()->getRepository(TournamentEntry2::class);
         return $this->render("success.html.twig", ["menus" => $tournament->findBy(['round' => $id]), "round" => $id]);
+    }
+
+    /**
+     * @Route("/participants/{id}", name="showRound")
+     */
+    public
+    function participants(String $id) {
+        $tournament = $this->getDoctrine()->getRepository(TournamentEntry2::class);
+        return $this->render("success.html.twig", ["menus" => $tournament->findBy(['participant_name' => $id]), "round" => $id]);
     }
 
 
