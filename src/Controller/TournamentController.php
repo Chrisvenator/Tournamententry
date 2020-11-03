@@ -70,15 +70,19 @@ class TournamentController extends AbstractController {
     }
 
     /**
-     * @Route("/resultsRoot", name="rootRound")
+     * @Route("/resultsRoot/{id}", name="rootRound")
      */
-    public function Resultsroot() {
-        $tournament = $this->getDoctrine()->getRepository(TournamentEntry2::class);
-        return $this->render("adminSuccess.html.twig", ["menus" => $tournament->findAll(), "round" => "All"]);
+    public function Resultsroot(string $id) {
+        if ($id == "passord") {
+            $tournament = $this->getDoctrine()->getRepository(TournamentEntry2::class);
+            return $this->render("adminSuccess.html.twig", ["menus" => $tournament->findAll(), "round" => "All"]);
+        } else {
+            return new Response("Passwort benötigt!");
+        }
     }
 
     /**
-     * @Route("/deleteMEME/{id}", name="delete_tournament")
+     * @Route("/delete/{id}", name="delete_tournament")
      */
     public function delete(int $id) {
         $entityManager = $this->getDoctrine()->getManager();
